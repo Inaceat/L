@@ -1,6 +1,5 @@
 #include "stdafx.h"
 
-
 //Test moar, but seems to be good
 std::string ToString(double object, int precision)
 {
