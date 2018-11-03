@@ -19,11 +19,15 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\Calculator.hpp" />
+    <ClInclude Include="src\ConsoleUtils.hpp" />
     <ClInclude Include="src\stdafx.h" />
     <ClInclude Include="src\StringUtils.hpp" />
     <ClInclude Include="src\targetver.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\Calculator.cpp" />
+    <ClCompile Include="src\ConsoleUtils.cpp" />
     <ClCompile Include="src\Lab9.cpp" />
     <ClCompile Include="src\stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>

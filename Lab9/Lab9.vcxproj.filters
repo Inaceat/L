@@ -20,6 +20,12 @@
     <ClInclude Include="src\StringUtils.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\Calculator.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ConsoleUtils.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Lab9.cpp">
@@ -29,6 +35,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\StringUtils.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Calculator.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ConsoleUtils.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
