@@ -8,6 +8,7 @@ char* DumbStrCat(char* destination, const char* source)
 {
 	// ReSharper disable once CppCStyleCast
 	//Yes, this is really shitty thing. Never repeat it at home!!!
+	
 	return (char*)memcpy(destination + strlen(destination), source, sizeof(char) * (strlen(source) + 1));
 }
 
