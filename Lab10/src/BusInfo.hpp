@@ -1,6 +1,7 @@
 #pragma once
 
 #include <string>
+#include <vector>
 
 class BusInfo
 {
@@ -13,7 +14,7 @@ public:
 		return _identificationNumber;
 	}
 
-	const std::string& Model()
+	std::vector<char> const & Model()
 	{
 		return _model;
 	}
@@ -38,7 +39,7 @@ public:
 
 private:
 	std::string _identificationNumber;
-	std::string _model;
+	std::vector<char> _model;
 	int _productionYear;
 	int _seatingSpace;
 	int _standingSpace;
