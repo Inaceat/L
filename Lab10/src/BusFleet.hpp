@@ -6,15 +6,7 @@
 #include <stdlib.h>
 #include <time.h>
 
-
-struct BusInfo
-{
-	char* IdentificationNumber;
-	char* Model;
-	int ProductionYear;
-	int SeatingSpace;
-	int StandingSpace;
-};
+#include "BusInfo.hpp"
 
 
 BusInfo* CreateBusList(const size_t listLength);

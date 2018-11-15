@@ -3,7 +3,7 @@
 #include "BusFleet.hpp"
 
 
-
+/*
 BusInfo* CreateBusList(const size_t listLength)
 {
 	static auto alphabet = "abcdefghijklmnopqrstuvwxyz0123456789";
@@ -122,4 +122,4 @@ void SortBusList(BusInfo* busList, size_t listLength, std::function<int(BusInfo*
 		for (int j = 0; j <= i; j++)
 			if (comparer(busList + j, busList + j + 1) < 0)
 				std::swap(busList[j], busList[j + 1]);
-}
+}*/
