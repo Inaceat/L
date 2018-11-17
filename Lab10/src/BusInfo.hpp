@@ -6,40 +6,24 @@
 class BusInfo
 {
 public:
-	BusInfo(const std::string identificationNumber, const std::string model, const int productionYear, const int seatingSpace, const int standingSpace);
+	BusInfo(std::string const& identificationNumber, std::string const& model, int productionYear, int seatingSpace, int standingSpace);
 
 
-	std::string IdentificationNumber()
-	{
-		return _identificationNumber;
-	}
+//////////////////////////////////////////////////////////////////////getters
+	std::string const& IdentificationNumber() const;
 
-	std::vector<char> const & Model()
-	{
-		return _model;
-	}
+	std::vector<char> const& Model() const;
 
-	int ProductionYear()//consts? references?
-	{
-		return _productionYear;
-	}
+	int const& ProductionYear() const;
 
+	int const& SeatingSpace() const;
 
-	int SeatingSpace()
-	{
-		return _seatingSpace;
-	}
-
-
-	int StandingSpace()
-	{
-		return _standingSpace;
-	}
+	int const& StandingSpace() const;
 
 
 private:
 	std::string _identificationNumber;
-	std::vector<char> _model;
+	std::vector<char> _model{};
 	int _productionYear;
 	int _seatingSpace;
 	int _standingSpace;
