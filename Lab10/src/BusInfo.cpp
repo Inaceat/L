@@ -1,7 +1,17 @@
 #include "stdafx.h"
 
 #include "BusInfo.hpp"
+#include <iomanip>
+#include <regex>
 
+
+BusInfo::BusInfo() :
+	_identificationNumber(),
+	_model(),
+	_productionYear(0),
+	_seatingSpace(0),
+	_standingSpace(0)
+{}
 
 BusInfo::BusInfo(std::string const& identificationNumber, std::string const& model, const int productionYear, const int seatingSpace, const int standingSpace) :
 	_identificationNumber(identificationNumber),
@@ -15,13 +25,62 @@ BusInfo::BusInfo(std::string const& identificationNumber, std::string const& mod
 }
 
 
+std::ostream& operator<<(std::ostream& ostream, const BusInfo& item)
+{
+	ostream << "ID Number: " << std::setw(10) << item._identificationNumber;
+	ostream << "  Model: " << std::setw(10) << item._model;
+	ostream << "  Prod. year: " << std::setw(5) << item._productionYear;
+	ostream << "  Seats: " << std::setw(4) << item._seatingSpace;
+	ostream << "  Standing space: " << std::setw(4) << item._standingSpace;
+	
+	ostream << std::endl;
+
+	return ostream;
+}
+
+std::istream& operator>>(std::istream& istream, BusInfo& item)
+{
+	std::string inputBuffer = "qwe,ert,12,42,13";
+
+
+	//std::getline(istream, inputBuffer, '\n');
+
+
+	std::regex pattern("(.)");
+	std::smatch match;
+
+
+	std::vector<std::string> res;
+
+	while(std::regex_search(inputBuffer, match, pattern))
+	{
+		res.push_back(match[0]);
+
+		inputBuffer = match.suffix();
+	}
+
+	
+
+
+
+
+	item._identificationNumber;
+	item._model;
+	item._productionYear;
+	item._seatingSpace;
+	item._standingSpace;
+
+	
+	return istream;
+}
+
 
 std::string const& BusInfo::IdentificationNumber() const
 {
 	return _identificationNumber;
 }
 
-std::vector<char> const& BusInfo::Model() const
+std::string const& BusInfo::Model() const
 {
 	return _model;
 }

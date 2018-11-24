@@ -6,13 +6,19 @@
 class BusInfo
 {
 public:
+	BusInfo();
+
 	BusInfo(std::string const& identificationNumber, std::string const& model, int productionYear, int seatingSpace, int standingSpace);
 
+
+	friend std::ostream& operator<<(std::ostream& ostream, const BusInfo& item);
+
+	friend std::istream& operator>>(std::istream& istream, BusInfo& item);
 
 //////////////////////////////////////////////////////////////////////getters
 	std::string const& IdentificationNumber() const;
 
-	std::vector<char> const& Model() const;
+	std::string const& Model() const;
 
 	int const& ProductionYear() const;
 
@@ -23,7 +29,7 @@ public:
 
 private:
 	std::string _identificationNumber;
-	std::vector<char> _model{};
+	std::string _model;
 	int _productionYear;
 	int _seatingSpace;
 	int _standingSpace;
