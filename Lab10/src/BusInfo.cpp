@@ -3,6 +3,7 @@
 #include "BusInfo.hpp"
 #include <iomanip>
 #include <regex>
+#include <sstream>
 
 
 BusInfo::BusInfo() :
@@ -25,6 +26,7 @@ BusInfo::BusInfo(std::string const& identificationNumber, std::string const& mod
 }
 
 
+
 std::ostream& operator<<(std::ostream& ostream, const BusInfo& item)
 {
 	ostream << "ID Number: " << std::setw(10) << item._identificationNumber;
@@ -38,41 +40,53 @@ std::ostream& operator<<(std::ostream& ostream, const BusInfo& item)
 	return ostream;
 }
 
+
+int ParseInt(const std::string& str)
+{
+	std::stringstream stream;
+	
+	stream << str;
+
+
+	int result;
+
+	stream >> result;
+
+	return result;
+}
+
 std::istream& operator>>(std::istream& istream, BusInfo& item)
 {
-	std::string inputBuffer = "qwe,ert,12,42,13";
+	std::string inputBuffer;
 
 
-	//std::getline(istream, inputBuffer, '\n');
+	std::getline(istream, inputBuffer, '\n');
 
 
-	std::regex pattern("(.)");
-	std::smatch match;
+	std::regex pattern(
+		"^"							//Correct BusInfo data is
+		"(.+?),(.+?),"				//[one or more non-comma symbols followed by comma] twice - id & model
+		"([0-9]{4}),"				//4 digits - year
+		"([0-9]+?),([0-9]+?)$"		//[one or more digits] twice - seating & standing space
+	);
+
+	if(false == std::regex_match(inputBuffer, pattern))
+		throw std::exception("Wrong Bus Info format!");
 
 
-	std::vector<std::string> res;
-
-	while(std::regex_search(inputBuffer, match, pattern))
-	{
-		res.push_back(match[0]);
-
-		inputBuffer = match.suffix();
-	}
-
-	
+	std::sregex_token_iterator currentMatch(inputBuffer.begin(), inputBuffer.end(), pattern, { 1, 2, 3, 4, 5});
 
 
-
-
-	item._identificationNumber;
-	item._model;
-	item._productionYear;
-	item._seatingSpace;
-	item._standingSpace;
+	item._identificationNumber = *currentMatch++;
+	item._model = *currentMatch++;
+	item._productionYear = ParseInt(*currentMatch++);
+	item._seatingSpace = ParseInt(*currentMatch++);
+	item._standingSpace = ParseInt(*currentMatch);
 
 	
 	return istream;
 }
+
 
 
 std::string const& BusInfo::IdentificationNumber() const
