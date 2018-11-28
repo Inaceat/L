@@ -23,23 +23,26 @@ public:
 
 	BusFleet(const BusFleet& other);
 
-	BusFleet(BusFleet&& other) noexcept;
-
-
 	BusFleet& operator=(const BusFleet& other);
-
-	BusFleet& operator=(BusFleet&& other) noexcept;
 
 
 	~BusFleet();
 
+
 public:
-	
-	void Show();
 
-	BusFleet Select(const std::function<bool(const BusInfo&)>& selector);
+	friend void swap(BusFleet& left, BusFleet& right) noexcept;
 
-	void Sort(const std::function<int(BusInfo*, BusInfo*)>& comparer);
+
+	friend std::ostream& operator<<(std::ostream& ostream, const BusFleet& item);
+
+	friend std::istream& operator>>(std::istream& istream, BusFleet& item);
+
+
+	BusFleet Select(const std::function<bool(const BusInfo&)>& selector) const;
+
+	void Sort(const std::function<int(const BusInfo&, const BusInfo&)>& comparer);
+
 
 private:
 	BusInfo* _list;

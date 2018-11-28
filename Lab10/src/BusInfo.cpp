@@ -16,14 +16,11 @@ BusInfo::BusInfo() :
 
 BusInfo::BusInfo(std::string const& identificationNumber, std::string const& model, const int productionYear, const int seatingSpace, const int standingSpace) :
 	_identificationNumber(identificationNumber),
-	_model(),
+	_model(model),
 	_productionYear(productionYear),
 	_seatingSpace(seatingSpace),
 	_standingSpace(standingSpace)
-{
-	for(size_t i = 0; i < model.size(); i++)
-		_model.push_back(model[i]);
-}
+{}
 
 
 

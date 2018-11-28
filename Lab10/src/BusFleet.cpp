@@ -3,9 +3,62 @@
 #include "BusFleet.hpp"
 
 
-/*
-BusInfo* CreateBusList(const size_t listLength)
+
+BusFleet::BusFleet(): 
+	_list(nullptr), 
+	_size(0)
+{}
+
+BusFleet::BusFleet(const BusFleet& other)
 {
+	_size = other._size;
+
+	if (other._size > 0)
+	{
+		_list = new BusInfo[other._size];
+
+
+		//std::copy(other._list, other._list + other._size, _list);TODO some f******g magic seems to be here
+		memcpy_s(_list, other._size * sizeof(BusInfo), other._list, other._size * sizeof(BusInfo));
+	}
+	else
+		_list = nullptr;
+}
+
+BusFleet& BusFleet::operator=(const BusFleet& other)
+{
+	BusFleet tmp(other);
+
+	swap(*this, tmp);
+
+	return *this;
+}
+
+
+BusFleet::~BusFleet()
+{
+	delete[] _list;
+	_list = nullptr;
+
+	_size = 0;
+}
+
+
+
+
+BusFleet::BusFleet(BusInfo* list, size_t size)
+{
+	_size = size;
+	_list = new BusInfo[size];
+
+	memcpy_s(_list, sizeof(BusInfo) * size, list, sizeof(BusInfo) * size);
+}
+
+BusFleet::BusFleet(const std::string& fileName)
+{
+	//TODO
+
+
 	static auto alphabet = "abcdefghijklmnopqrstuvwxyz0123456789";
 
 	static size_t alphabetLength = 36;
@@ -14,112 +67,120 @@ BusInfo* CreateBusList(const size_t listLength)
 
 	srand(time(nullptr));
 
-	auto list = new BusInfo[listLength];
+	_size = 10;
 
-	for (size_t i = 0; i < listLength; i++)
+	_list = new BusInfo[_size];
+
+	for (size_t i = 0; i < _size; i++)
 	{
 		////////////////////////////////////////////////////////////IdentificationNumber
 		size_t idLength = rand() % 4 + 5;
 
-		list[i].IdentificationNumber = new char[idLength + 1];
-		list[i].IdentificationNumber[idLength] = '\0';
+		auto id = new char[idLength + 1];
+		id[idLength] = '\0';
 
 		for (size_t idCounter = 0; idCounter < idLength; idCounter++)
-			list[i].IdentificationNumber[idCounter] = alphabet[rand() % alphabetLength];
+			id[idCounter] = alphabet[rand() % alphabetLength];
 
 
 		////////////////////////////////////////////////////////////Model
 		size_t modelLength = rand() % 4 + 7;
 
-		list[i].Model = new char[modelLength + 1];
-		list[i].Model[modelLength] = '\0';
+		auto model = new char[modelLength + 1];
+		model[modelLength] = '\0';
 
 		for (size_t modelCounter = 0; modelCounter < modelLength; modelCounter++)
-			list[i].Model[modelCounter] = alphabet[rand() % lettersLength];
+			model[modelCounter] = alphabet[rand() % lettersLength];
 
 
 		////////////////////////////////////////////////////////////ProductionYear
-		list[i].ProductionYear = rand() % 65 + 1950;
+		auto productionYear = rand() % 65 + 1950;
 
 
 		////////////////////////////////////////////////////////////SeatingSpace
-		list[i].SeatingSpace = rand() % 40 + 10;
+		auto seatingSpace = rand() % 40 + 10;
 
 
 		////////////////////////////////////////////////////////////StandingSpace
-		list[i].StandingSpace = rand() % 101;
+		auto standingSpace = rand() % 101;
+
+
+		////////////////////////////////////////////////////////////
+
+		std::string idStr(id);
+		std::string modelStr(model);
+
+		BusInfo newEntry(idStr, modelStr, productionYear, seatingSpace, standingSpace);
+
+		_list[i] = newEntry;
+
+		delete[] id;
+		delete[] model;
 	}
-
-
-	return list;
 }
 
 
-void ClearBusList(BusInfo* busList, size_t listLength)
+
+
+void swap(BusFleet& left, BusFleet& right) noexcept
 {
-	for (size_t i = 0; i < listLength; i++)
+	using std::swap;
+
+	swap(left._list, right._list);
+	swap(left._size, right._size);
+}
+
+
+std::ostream& operator<<(std::ostream& ostream, const BusFleet& item)
+{
+	for (size_t i = 0; i < item._size; i++)
+		ostream << item._list[i];
+
+	return ostream;
+}
+
+std::istream& operator>>(std::istream& istream, BusFleet& item)
+{
+	//TODO
+
+	/*for (size_t i = 0; i < item._size; i++)
+		istream >> item._list[i];*/
+
+	return istream;
+}
+
+
+
+BusFleet BusFleet::Select(const std::function<bool(const BusInfo&)>& selector) const
+{
+	std::vector<BusInfo> selectedItems;
+
+	for (size_t i = 0; i < _size; i++)
 	{
-		delete[] busList[i].IdentificationNumber;
-		busList[i].IdentificationNumber = nullptr;
-
-		delete[] busList[i].Model;
-		busList[i].Model = nullptr;
+		if (selector(_list[i]))
+			selectedItems.push_back(_list[i]);
+		
 	}
 
-	delete[] busList;
-	busList = nullptr;
+	BusFleet result;
+
+	result._size = selectedItems.size();
+	result._list = new BusInfo[result._size];
+	
+	std::copy(selectedItems.begin(), selectedItems.end(), result._list);
+
+
+	return result;
 }
 
-
-
-
-void ShowBusInfo(BusInfo* busInfo)
+void BusFleet::Sort(const std::function<int(const BusInfo&, const BusInfo&)>& comparer)
 {
-	std::cout << "ID Number: " << std::setw(10) << busInfo->IdentificationNumber;
-	std::cout << "  Model: " << std::setw(10) << busInfo->Model;
-	std::cout << "  Prod. year: " << std::setw(5) << busInfo->ProductionYear;
-	std::cout << "  Seats: " << std::setw(4) << busInfo->SeatingSpace;
-	std::cout << "  Standing space: " << std::setw(4) << busInfo->StandingSpace;
-
-	std::cout << std::endl;
-}
-
-
-void ShowBusList(BusInfo* busList, size_t listLength)
-{
-	for (size_t i = 0; i < listLength; i++)
-	{
-		std::cout << i + 1 << ".\t";
-
-		ShowBusInfo(busList + i);
-	}
-
-	std::cout << std::endl << std::endl;
-}
-
-void ShowBusList(BusInfo* busList, size_t listLength, std::function<bool(BusInfo*)> selector)
-{
-	for (size_t i = 0, selectedNumber = 1; i < listLength; i++)
-		if (selector(busList + i))
-		{
-			std::cout << selectedNumber++ << ".\t";
-
-			ShowBusInfo(busList + i);
-		}
-
-	std::cout << std::endl << std::endl;
-}
-
-
-
-void SortBusList(BusInfo* busList, size_t listLength, std::function<int(BusInfo*, BusInfo*)> comparer)
-{
-	if (listLength == 1)
+	if (_size == 1)
 		return;
 
 	//Bubble sort
-	for (int i = listLength - 2; i >= 0; i--)
+	for (int i = _size - 2; i >= 0; i--)
 		for (int j = 0; j <= i; j++)
-			if (comparer(busList + j, busList + j + 1) < 0)
-				std::swap(busList[j], busList[j + 1]);
-}*/
+			if (comparer(_list[j], _list[j + 1]) < 0)
+				std::swap(_list[j], _list[j + 1]);
+}
