@@ -2,9 +2,7 @@
 
 
 #include <functional>
-#include <iomanip>
-#include <stdlib.h>
-#include <time.h>
+#include <fstream>
 
 #include "BusInfo.hpp"
 
@@ -35,8 +33,9 @@ public:
 
 
 	friend std::ostream& operator<<(std::ostream& ostream, const BusFleet& item);
-
-	friend std::istream& operator>>(std::istream& istream, BusFleet& item);
+	
+	friend std::ifstream& operator>>(std::ifstream& ifstream, BusFleet& item);
+	
 
 
 	BusFleet Select(const std::function<bool(const BusInfo&)>& selector) const;
@@ -48,21 +47,3 @@ private:
 	BusInfo* _list;
 	size_t _size;
 };
-
-
-
-
-BusInfo* CreateBusList(const size_t listLength);
-
-void ClearBusList(BusInfo* busList, size_t listLength);
-
-
-void ShowBusInfo(BusInfo* busInfo);
-
-
-void ShowBusList(BusInfo* busList, size_t listLength);
-
-void ShowBusList(BusInfo* busList, size_t listLength, std::function<bool(BusInfo*)> selector);
-
-
-void SortBusList(BusInfo* busList, size_t listLength, std::function<int(BusInfo*, BusInfo*)> comparer);
