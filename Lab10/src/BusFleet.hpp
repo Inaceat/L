@@ -2,7 +2,9 @@
 
 
 #include <functional>
+#include <string>
 #include <fstream>
+
 
 #include "BusInfo.hpp"
 
@@ -37,6 +39,7 @@ public:
 	friend std::ifstream& operator>>(std::ifstream& ifstream, BusFleet& item);
 	
 
+	void Save(const std::string& fileName) const;
 
 	BusFleet Select(const std::function<bool(const BusInfo&)>& selector) const;
 

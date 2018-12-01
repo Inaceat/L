@@ -3,6 +3,7 @@
 #include "BusFleet.hpp"
 
 
+
 BusFleet::BusFleet(): 
 	_list(nullptr), 
 	_size(0)
@@ -82,6 +83,7 @@ std::ostream& operator<<(std::ostream& ostream, const BusFleet& item)
 	return ostream;
 }
 
+
 std::ifstream& operator>>(std::ifstream& ifstream, BusFleet& item)
 {
 	std::vector<BusInfo> readData;
@@ -102,6 +104,20 @@ std::ifstream& operator>>(std::ifstream& ifstream, BusFleet& item)
 }
 
 
+void BusFleet::Save(const std::string& fileName) const
+{
+	std::ofstream stream(fileName, std::fstream::out);
+
+	if (_size > 0)
+	{
+		for (size_t i = 0; i < _size - 1; i++)
+			stream << _list[i].ToCsv() << '\n';
+
+		stream << _list[_size - 1].ToCsv();
+	}
+
+	stream.close();
+}
 
 BusFleet BusFleet::Select(const std::function<bool(const BusInfo&)>& selector) const
 {

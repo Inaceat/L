@@ -85,6 +85,19 @@ std::istream& operator>>(std::istream& istream, BusInfo& item)
 }
 
 
+std::string BusInfo::ToCsv() const
+{	
+	std::string itemContent =
+		_identificationNumber + "," +
+		_model + "," +
+		std::to_string(_productionYear) + "," +
+		std::to_string(_seatingSpace) + "," +
+		std::to_string(_standingSpace);
+
+	return itemContent;
+}
+
+
 
 std::string const& BusInfo::IdentificationNumber() const
 {

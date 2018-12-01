@@ -15,6 +15,9 @@ public:
 
 	friend std::istream& operator>>(std::istream& istream, BusInfo& item);
 
+
+	std::string ToCsv() const;
+
 //////////////////////////////////////////////////////////////////////getters
 	std::string const& IdentificationNumber() const;
 
