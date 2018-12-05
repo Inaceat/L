@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\Geometry.cpp" />
     <ClCompile Include="src\Lab13.cpp" />
     <ClCompile Include="src\stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
@@ -28,6 +29,7 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\Geometry.hpp" />
     <ClInclude Include="src\stdafx.h" />
     <ClInclude Include="src\targetver.h" />
   </ItemGroup>
