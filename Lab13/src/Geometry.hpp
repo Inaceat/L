@@ -1,5 +1,9 @@
 #pragma once
 
+#include <cmath>
+#include <utility>
+#include <vector>
+
 
 namespace geometry2D
 {
@@ -16,21 +20,6 @@ namespace geometry2D
 	private:
 		double _x;
 		double _y;
-	};
-
-
-	class Circle
-	{
-		public:
-		Circle(Point center, double radius);
-		
-		Point Center() const;
-		double Radius() const;
-
-
-	private:
-		Point _center;
-		double _radius;
 	};
 
 
@@ -58,17 +47,45 @@ namespace geometry2D
 		Line();
 		Line(Point point, Vector directionVector);
 
-		Vector DirectionalVector() const;
+		double A() const;
+		double B() const;
+		double C() const;
 
+		Point PointOnLine() const;
+		Vector DirectionVector() const;
 
 	private:
 		double _A;
 		double _B;
 		double _C;
+
+		Point _pointOnLine;
+		Vector _directionVector;
+	}; 
+	
+	
+	class Circle
+	{
+		public:
+		Circle(Point center, double radius);
+
+		std::vector<Point> IntersectWith(Line line) const;
+
+		Point Center() const;
+		double Radius() const;
+
+
+	private:
+		Point _center;
+		double _radius;
 	};
+
+
+	
 
 
 
 
 	Point Middle(Point left, Point right);
+	double Distance(Point left, Point right);
 }
