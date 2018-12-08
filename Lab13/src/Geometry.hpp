@@ -1,7 +1,7 @@
 #pragma once
 
-#include <cmath>
-#include <utility>
+
+#include <iostream>
 #include <vector>
 
 
@@ -12,17 +12,19 @@ namespace geometry2D
 	public:
 		Point();
 		Point(double x, double y);
-		
+
 		double X() const;
 		double Y() const;
 
+
+		friend std::istream& operator>>(std::istream& stream, Point& point);
+		friend std::ostream& operator<<(std::ostream& stream, Point& point);
 
 	private:
 		double _x;
 		double _y;
 	};
-
-
+	
 	class Vector
 	{
 	public:
@@ -34,13 +36,13 @@ namespace geometry2D
 		double XComponent() const;
 		double YComponent() const;
 
+		Vector operator+(const Vector& right) const;
 
 	private:
 		double _a1;
 		double _a2;
 	};
-
-
+	
 	class Line
 	{
 	public:
@@ -61,12 +63,11 @@ namespace geometry2D
 
 		Point _pointOnLine;
 		Vector _directionVector;
-	}; 
-	
+	};
 	
 	class Circle
 	{
-		public:
+	public:
 		Circle(Point center, double radius);
 
 		std::vector<Point> IntersectWith(Line line) const;
@@ -74,17 +75,13 @@ namespace geometry2D
 		Point Center() const;
 		double Radius() const;
 
+		friend std::ostream& operator<<(std::ostream& stream, Circle& circle);
 
 	private:
 		Point _center;
 		double _radius;
 	};
-
-
 	
-
-
-
 
 	Point Middle(Point left, Point right);
 	double Distance(Point left, Point right);
