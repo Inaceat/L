@@ -5,25 +5,25 @@
 
 
 geometry2D::Vector::Vector() :
-	_a1(0),
-	_a2(0)
+	_xComponent(0),
+	_yComponent(0)
 {}
 
 geometry2D::Vector::Vector(const double a1, const double a2) :
-	_a1(a1),
-	_a2(a2)
+	_xComponent(a1),
+	_yComponent(a2)
 {}
 
 geometry2D::Vector::Vector(Point a, Point b)
 {
-	_a1 = b.X() - a.X();
-	_a2 = b.Y() - a.Y();
+	_xComponent = b.X() - a.X();
+	_yComponent = b.Y() - a.Y();
 }
 
 
-geometry2D::Vector geometry2D::Vector::FindNormal() const
+geometry2D::Vector geometry2D::Vector::FindPerpendicularVector() const
 {
-	Vector result(_a2, (-1) * _a1);
+	Vector result(_yComponent, (-1) * _xComponent);
 
 	return result;
 }
@@ -31,15 +31,31 @@ geometry2D::Vector geometry2D::Vector::FindNormal() const
 
 double geometry2D::Vector::XComponent() const
 {
-	return _a1;
+	return _xComponent;
 }
 
 double geometry2D::Vector::YComponent() const
 {
-	return _a2;
+	return _yComponent;
 }
+
 
 geometry2D::Vector geometry2D::Vector::operator+(const Vector & right) const
 {
-	return Vector(_a1 + right._a1, _a2 + right._a2);
+	return Vector(_xComponent + right._xComponent, _yComponent + right._yComponent);
+}
+
+geometry2D::Vector geometry2D::Vector::operator-(const Vector& right) const
+{
+	return Vector(_xComponent - right._xComponent, _yComponent - right._yComponent);
+}
+
+geometry2D::Vector geometry2D::Vector::operator*(double scalar) const
+{
+	return Vector(_xComponent * scalar, _yComponent * scalar);
+}
+
+double geometry2D::Vector::operator*(const Vector& other) const
+{
+	return this->_xComponent * other._xComponent + this->_yComponent * other._yComponent;
 }

@@ -38,7 +38,7 @@ std::istream& geometry2D::operator>>(std::istream& stream, Point& point)
 
 std::ostream& geometry2D::operator<<(std::ostream& stream, Point& point)
 {
-	stream << "Point(" << point._x << ", " << point._y << ")\n";
+	stream << "Point(" << point._x << ", " << point._y << ")";
 
 	return stream;
 }

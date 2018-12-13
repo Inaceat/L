@@ -32,15 +32,24 @@ namespace geometry2D
 		Vector(double a1, double a2);
 		Vector(Point a, Point b);
 
-		Vector FindNormal() const;
 		double XComponent() const;
 		double YComponent() const;
 
+		
+		Vector FindPerpendicularVector() const;
+		
 		Vector operator+(const Vector& right) const;
+		
+		Vector operator-(const Vector& right) const;
+		
+		Vector operator*(double scalar) const;
+		
+		double operator*(const Vector& other) const;
+		
 
 	private:
-		double _a1;
-		double _a2;
+		double _xComponent;
+		double _yComponent;
 	};
 	
 	class Line
