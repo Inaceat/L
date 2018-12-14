@@ -51,17 +51,13 @@ namespace dumb_geometry
 		Point _a;
 		Point _b;
 		Point _c;
-
-		double _abLength;
-		double _bcLength;
-		double _adLength;
 	};
 
 
 	class Trapeze : public IAreaProvider
 	{
 	public:
-		//Trapeze should have BC and AD sides parallel. If wrong points are passed, confluent trapeze is created.
+		//Trapeze ABCD should have BC and AD sides parallel. If wrong points are passed, degenerate trapeze in Point(0, 0) is created.
 		Trapeze(Point a, Point b, Point c, Point d);
 
 		Point A() const;
@@ -78,4 +74,8 @@ namespace dumb_geometry
 		Point _c;
 		Point _d;
 	};
+
+
+
+	double Distance(Point left, Point right);
 }

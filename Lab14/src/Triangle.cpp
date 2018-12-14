@@ -8,11 +8,7 @@ dumb_geometry::Triangle::Triangle(Point a, Point b, Point c) :
 	_a(a),
 	_b(b),
 	_c(c)
-{
-	_abLength = sqrt((a.X() - b.X()) * (a.X() - b.X()) + () * ());
-	_bcLength = 0;
-	_adLength = 0;
-}
+{}
 
 
 std::list<dumb_geometry::Point> dumb_geometry::Triangle::GetPoints() const
@@ -35,9 +31,14 @@ dumb_geometry::Point dumb_geometry::Triangle::C() const
 	return _c;
 }
 
+
 double dumb_geometry::Triangle::Area()
 {
-	double halfPerimeter = 
+	double abLength = Distance(_a, _b);
+	double bcLength = Distance(_b, _c);
+	double acLength = Distance(_a, _c);
 
-	return 
+	double semiPerimeter = (abLength + bcLength + acLength) / 2;
+
+	return std::sqrt(semiPerimeter * (semiPerimeter - abLength) * (semiPerimeter - bcLength) * (semiPerimeter - acLength));
 }

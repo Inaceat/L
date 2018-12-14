@@ -2,6 +2,7 @@
 
 
 #include "DumbGeometry.hpp"
+#include <valarray>
 
 
 dumb_geometry::Trapeze::Trapeze(Point a, Point b, Point c, Point d)
@@ -15,7 +16,10 @@ dumb_geometry::Trapeze::Trapeze(Point a, Point b, Point c, Point d)
 	double adX = a.X() - d.X();
 	double adY = a.Y() - d.Y();
 
-	if (bcX / adX - bcY / adY < geometryDoubleEpsilon)//**** this double comparison!
+	// bcX    bcY
+	// --- == ---
+	// adX	  adY
+	if (bcX * adY - bcY * adX < geometryDoubleEpsilon)//**** this double comparison!
 	{
 		_a = a;
 		_b = b;
@@ -45,7 +49,17 @@ dumb_geometry::Point dumb_geometry::Trapeze::D() const
 	return _d;
 }
 
+
 double dumb_geometry::Trapeze::Area()
 {
-	return 0.0;
+	double ab = Distance(_a, _b);
+	double bc = Distance(_b, _c);//top, || da
+	double cd = Distance(_c, _d);
+	double da = Distance(_d, _a);//bottom, || bc
+
+	//SemiPerimeter of trapeze
+	double s = (ab + bc + cd + da) / 2;
+
+
+	return std::sqrt((s - bc) * (s - da) * (s - da - ab) * (s - da - cd)) * (bc + da) / std::abs(bc - da);
 }
