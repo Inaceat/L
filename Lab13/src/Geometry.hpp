@@ -45,7 +45,11 @@ namespace geometry2D
 		Vector operator*(double scalar) const;
 		
 		double operator*(const Vector& other) const;
-		
+
+
+		friend std::istream& operator>>(std::istream& stream, Vector& vector);
+		friend std::ostream& operator<<(std::ostream& stream, Vector& vector);
+
 
 	private:
 		double _xComponent;
