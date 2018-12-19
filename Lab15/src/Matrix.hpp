@@ -8,48 +8,56 @@ class Matrix
 {
 public:
 	//Matrix 0x0
-	Matrix();
+	Matrix() = default;
 
 	//Matrix with random elements
 	Matrix(size_t rows, size_t columns);
+
+	//Matrix with same elements
+	Matrix(size_t rows, size_t columns, double element);
 
 
 	//Copy ctor
 	Matrix(const Matrix& other);
 
 	//Move ctor
-	Matrix(const Matrix&& other) noexcept;
+	Matrix(Matrix&& other) noexcept;
 
 
-	//Copy assign
-	Matrix& operator=(const Matrix& other);
-
-	//Move assign
-	Matrix& operator=(Matrix&& other) noexcept;
+	//Assign
+	Matrix& operator=(Matrix other);
 
 
 	//Destructor
-	~Matrix();
+	~Matrix() = default;
 
 
 	//Read Matrix from file
 	Matrix ReadFrom(const std::string& fileName);
 	
 	//Indexer
-	//TODO indexer
+	double operator()(size_t row, size_t column) const;
 
 
 	//Operations
 	Matrix operator+(const Matrix& other) const;
 	Matrix operator-(const Matrix& other) const;
 
-	Matrix operator*(double other) const;
+	Matrix operator*(double scalar) const;
 	Matrix operator*(const Matrix& other) const;//Throws on wrong matrices size TODO really throw?
 
 
-private:
-	size_t _rows;
-	size_t _columns;
+	//Swap
+	friend void swap(Matrix& left, Matrix& right) noexcept;
 
-	std::unique_ptr<double> _matrix;
+
+	//Stream I/O
+	friend std::istream& operator>>(std::istream& stream, Matrix& matrix);
+	friend std::ostream& operator<<(std::ostream& stream, Matrix& matrix);
+
+private:
+	size_t _rows {};
+	size_t _columns {};
+
+	std::unique_ptr<double[]> _matrix {};
 };
