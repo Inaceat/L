@@ -4,6 +4,9 @@
 #include <string>
 
 
+class WrongMatrixFileFormat : std::exception {};
+
+
 class Matrix
 {
 public:
@@ -33,7 +36,7 @@ public:
 
 
 	//Read Matrix from file
-	Matrix ReadFrom(const std::string& fileName);
+	static Matrix ReadFrom(const std::string& fileName);
 	
 	//Indexer
 	double operator()(size_t row, size_t column) const;
@@ -51,8 +54,8 @@ public:
 	friend void swap(Matrix& left, Matrix& right) noexcept;
 
 
-	//Stream I/O
-	friend std::istream& operator>>(std::istream& stream, Matrix& matrix);
+	//Stream I/O : I only from file!
+	friend std::ifstream& operator>>(std::ifstream& stream, Matrix& matrix);
 	friend std::ostream& operator<<(std::ostream& stream, Matrix& matrix);
 
 private:

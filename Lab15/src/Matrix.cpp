@@ -1,11 +1,16 @@
 ﻿#include "stdafx.h"
 
 
+#include <fstream>
 #include <random>
+#include <sstream>
 
 
 #include "Matrix.hpp"
-#include <iostream>
+
+
+
+
 
 
 Matrix::Matrix(size_t rows, size_t columns) :
@@ -47,7 +52,7 @@ Matrix::Matrix(Matrix&& other) noexcept :
 }
 
 
-//Due to copy-swap this is both "copy" and "move" assignment. Maybe.
+//Due to copy-swap this is both "copy" and "move" assignment.
 Matrix& Matrix::operator=(Matrix other)
 {
 	swap(*this, other);
@@ -59,10 +64,14 @@ Matrix& Matrix::operator=(Matrix other)
 
 Matrix Matrix::ReadFrom(const std::string& fileName)
 {
-	//TODO
-	std::cout << "NOPE" << std::endl;
+	std::ifstream stream(fileName);
 
-	return {};
+	Matrix result;
+
+	stream >> result;
+
+
+	return result;
 }
 
 
@@ -146,9 +155,88 @@ void swap(Matrix& left, Matrix& right) noexcept
 }
 
 
-std::istream& operator>>(std::istream& stream, Matrix& matrix)
+
+double ParseDouble(std::string string)
 {
-	//TODO not implementation
+	std::stringstream lineStream(string);
+
+	double result;
+
+	lineStream >> result;
+
+	return result;
+}
+
+std::vector<std::string> ParseCsv(std::string string)
+{
+	std::stringstream lineStream(string);
+
+
+	std::vector<std::string> result;
+
+
+	std::string value;
+	
+	while (true)
+	{
+		if (false == lineStream.eof())
+		{
+			std::getline(lineStream, value, ',');
+
+			if (value.size() > 0)
+				result.push_back(value);
+		}
+		else
+			break;
+	}
+
+
+	return result;
+}
+
+std::ifstream& operator>>(std::ifstream& stream, Matrix& matrix)
+{
+	size_t columns = 0;
+	size_t rows = 0;
+
+	std::vector<std::string> readMatrixData;
+
+
+	while (stream.eof() == false)
+	{
+		//Read line from file
+		std::string rowBuffer;
+		std::getline(stream, rowBuffer, '\n');
+
+
+		//Split into elements
+		std::vector<std::string> rowReadItems = ParseCsv(rowBuffer);
+		size_t rowReadSize = rowReadItems.size();
+
+
+		if (rowReadSize == 0 ||						 //if no data in row
+			(columns != 0 && rowReadSize != columns))//or read more or less items than before (not for first line)
+			throw WrongMatrixFileFormat();			 //ERROR it is
+
+		columns = rowReadSize;
+		rows++;
+		
+		//Add row to result
+		readMatrixData.insert(readMatrixData.end(), rowReadItems.begin(), rowReadItems.end());
+	}
+
+
+	//Create matrix
+	Matrix result(rows, columns, 0);
+
+	//Copy result to it
+	for (size_t i = 0; i < rows * columns; i++)
+		result._matrix[i] = ParseDouble(readMatrixData[i]);
+
+	//Move created matrix to passed
+	swap(result, matrix);
+
+
 	return stream;
 }
 
