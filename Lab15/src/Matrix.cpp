@@ -85,7 +85,7 @@ Matrix Matrix::operator+(const Matrix& other) const
 {
 	//If size of matrices differ, operation can't be performed
 	if (_rows != other._rows || _columns != other._columns)
-		return {};
+		throw WrongMatrixSize();
 
 	//Make copy of "left"
 	Matrix result(other);
@@ -122,7 +122,7 @@ Matrix Matrix::operator*(const Matrix& other) const
 {
 	//Multiplication requires proper matrices size
 	if (this->_columns != other._rows)
-		return {};
+		throw WrongMatrixSize();
 
 
 	Matrix result(this->_rows, other._columns, 0);

@@ -5,7 +5,7 @@
 
 
 class WrongMatrixFileFormat : std::exception {};
-
+class WrongMatrixSize : std::exception {};
 
 class Matrix
 {
@@ -42,19 +42,19 @@ public:
 	double operator()(size_t row, size_t column) const;
 
 
-	//Operations
+	//Operations, throwing if matrices have wrong size
 	Matrix operator+(const Matrix& other) const;
 	Matrix operator-(const Matrix& other) const;
 
 	Matrix operator*(double scalar) const;
-	Matrix operator*(const Matrix& other) const;//Throws on wrong matrices size TODO really throw?
+	Matrix operator*(const Matrix& other) const;
 
 
 	//Swap
 	friend void swap(Matrix& left, Matrix& right) noexcept;
 
 
-	//Stream I/O : I only from file!
+	//Stream I/O : Input only from file!
 	friend std::ifstream& operator>>(std::ifstream& stream, Matrix& matrix);
 	friend std::ostream& operator<<(std::ostream& stream, Matrix& matrix);
 
