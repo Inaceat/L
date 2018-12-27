@@ -5,6 +5,7 @@
 #include <sstream>
 
 
+//Tries to get T value from string
 template<class T>
 static T Parse(std::string string)
 {
@@ -17,6 +18,7 @@ static T Parse(std::string string)
 	return result;
 }
 
+//Splits string formatted as CSV to list of entries
 static std::vector<std::string> ParseCsv(const std::string& string)
 {
 	std::stringstream lineStream(string);

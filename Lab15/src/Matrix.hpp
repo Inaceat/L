@@ -86,13 +86,13 @@ public:
 		if (_rows != other._rows || _columns != other._columns)
 			throw WrongMatrixSize();
 
-		//Make copy of "right"
-		Matrix result(other);
+		//Make copy of "left"
+		Matrix result(*this);
 
 
-		//Add to "right" copy elements "left" elements
+		//Add to "left" copy elements "right" elements
 		for (size_t i = 0; i < other._rows * other._columns; i++)
-			result._matrix[i] += _matrix[i];
+			result._matrix[i] += other._matrix[i];
 
 
 		return result;
@@ -110,7 +110,7 @@ public:
 
 		//Substract from "left" copy elements "right" elements
 		for (size_t i = 0; i < other._rows * other._columns; i++)
-			result._matrix[i] -= _matrix[i];
+			result._matrix[i] -= other._matrix[i];
 
 
 		return result;
@@ -216,7 +216,7 @@ public:
 		return stream;
 	}
 	
-	friend std::ostream& operator<<(std::ostream& stream, Matrix<T>& matrix)
+	friend std::ostream& operator<<(std::ostream& stream, Matrix& matrix)
 	{
 		const auto oldprecision = stream.precision(5);
 
